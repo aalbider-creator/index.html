@@ -3,21 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RecruiterAI - How It Works</title>
+    <title>How It Works - RecruiterAI by Liba Space</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.5);
-            --secondary: #ec4899;
-            --accent: #10b981;
-            --dark: #0f172a;
-            --darker: #020617;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -26,148 +17,248 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--darker);
-            color: white;
+            background: #ffffff;
+            color: #1f2937;
             overflow-x: hidden;
         }
         
-        .font-display {
-            font-family: 'Space Grotesk', sans-serif;
+        .bg-gradient-subtle {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
         }
         
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .text-brand {
+            color: #10b981;
+        }
+        
+        .bg-brand {
+            background-color: #10b981;
+        }
+        
+        .bg-brand-light {
+            background-color: #d1fae5;
+        }
+        
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            transform: translateY(-4px);
+            border-color: #10b981;
+        }
+        
+        /* Preview Section Styles */
+        .preview-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            border: 2px solid #10b981;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 0;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: pulse-bg 4s ease-in-out infinite;
         }
         
-        .bg-grid::before {
+        @keyframes pulse-bg {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .preview-step {
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .preview-step.active {
+            border-color: #10b981;
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
+            transform: translateY(-8px) scale(1.02);
+        }
+        
+        .preview-step.completed {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .step-indicator {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .preview-step.active .step-indicator {
+            background: #10b981;
+            color: white;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .preview-step.completed .step-indicator {
+            background: #059669;
+            color: white;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .preview-step.active .step-indicator::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, transparent 0%, var(--darker) 100%);
-        }
-        
-        .orb {
-            position: fixed;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: 0;
+            background: #10b981;
+            animation: pulse-ring 1.5s infinite;
+            z-index: -1;
         }
         
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--primary);
-            top: 10%;
-            left: -10%;
-            animation: float 20s infinite ease-in-out;
+        .mock-ui {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            min-height: 120px;
         }
         
-        .orb-2 {
-            width: 300px;
-            height: 300px;
-            background: var(--secondary);
-            bottom: 20%;
-            right: -5%;
-            animation: float 25s infinite ease-in-out reverse;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        
-        .pipeline-connector {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            z-index: 0;
-        }
-        
-        .pipeline-connector::after {
-            content: '';
-            position: absolute;
-            right: -10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-left: 10px solid var(--secondary);
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-        }
-        
-        .step-badge {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 0 30px var(--primary-glow);
-        }
-        
-        .data-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0;
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px var(--primary-glow); }
-            50% { box-shadow: 0 0 40px var(--primary-glow), 0 0 60px rgba(99, 102, 241, 0.3); }
-        }
-        
-        .pulse-active {
-            animation: pulse-glow 2s infinite;
-        }
-        
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 1s infinite;
-            color: var(--accent);
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 12px;
         }
         
         .progress-fill {
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            box-shadow: 0 0 10px var(--primary-glow);
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.6s ease;
         }
         
-        .hover-lift {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+        .start-simulation-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
         }
         
-        .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 60px -15px rgba(99, 102, 241, 0.3);
+        .start-simulation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
+        }
+        
+        .start-simulation-btn:active {
+            transform: translateY(0);
+        }
+        
+        .start-simulation-btn.simulating {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 24px;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #10b981;
+            line-height: 1;
+        }
+        
+        .btn-primary {
+            background: #10b981;
+            color: white;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #10b981;
+            color: #10b981;
+        }
+        
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .status-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.3s ease;
+        }
+        
+        .preview-step.active .status-text {
+            color: #10b981;
+        }
+        
+        .preview-step.completed .status-text {
+            color: #059669;
         }
         
         ::-webkit-scrollbar {
@@ -175,304 +266,231 @@
         }
         
         ::-webkit-scrollbar-track {
-            background: var(--dark);
+            background: #f1f5f9;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: var(--primary);
+            background: #cbd5e1;
             border-radius: 4px;
         }
         
-        .simulation-toggle {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .simulation-toggle.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-        }
-        
-        .stat-value {
-            background: linear-gradient(135deg, white, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        @media (max-width: 768px) {
-            .pipeline-container {
-                flex-direction: column;
-            }
-            .pipeline-connector {
-                width: 2px !important;
-                height: 100% !important;
-                left: 30px !important;
-                top: 0 !important;
-                transform: none !important;
-            }
-            .pipeline-connector::after {
-                right: auto !important;
-                bottom: -10px !important;
-                top: auto !important;
-                left: 50% !important;
-                transform: translateX(-50%) rotate(90deg) !important;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
-<body>
-    <div class="bg-grid"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
+<body class="bg-gradient-subtle">
+    
+    <!-- Header Section -->
+    <header class="pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-light border border-brand/20 mb-6 opacity-0" id="badge">
+                <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+                <span class="text-sm text-brand font-medium">AI-Powered Recruiting Pipeline</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight opacity-0" id="main-title">
+                How <span class="text-brand">RecruiterAI</span> Works
+            </h1>
+            
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8 opacity-0" id="subtitle">
+                Transform your hiring process from days to minutes with our intelligent 3-step pipeline
+            </p>
+        </div>
+    </header>
 
-    <div class="relative z-10 min-h-screen">
-        
-        <header class="pt-20 pb-10 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-7xl mx-auto text-center">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6 opacity-0" id="badge">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-sm text-gray-300">AI-Powered Recruiting Pipeline</span>
-                </div>
-                
-                <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight opacity-0" id="main-title">
-                    How <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-pink-400">RecruiterAI</span> Works
-                </h1>
-                
-                <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-8 opacity-0" id="subtitle">
-                    Transform your hiring process from days to minutes with our intelligent 3-step pipeline
+    <!-- Stats Section -->
+    <section class="max-w-6xl mx-auto px-4 mb-16">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 opacity-0" id="stats-bar">
+            <div class="feature-card stat-card">
+                <div class="stat-number" data-target="90">0%</div>
+                <div class="text-sm text-gray-500 mt-2">Time Saved</div>
+            </div>
+            <div class="feature-card stat-card">
+                <div class="stat-number" data-target="500">0+</div>
+                <div class="text-sm text-gray-500 mt-2">Profiles/Hour</div>
+            </div>
+            <div class="feature-card stat-card">
+                <div class="stat-number" data-target="95">0%</div>
+                <div class="text-sm text-gray-500 mt-2">Accuracy Rate</div>
+            </div>
+            <div class="feature-card stat-card">
+                <div class="stat-number" data-target="3">0x</div>
+                <div class="text-sm text-gray-500 mt-2">Faster Hiring</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SIMULATION SECTION - The main feature -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div class="preview-section p-8 md:p-12 opacity-0" id="preview-section">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">See It In Action</h2>
+                <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                    Watch how RecruiterAI guides you through each step of the recruiting process in real-time
                 </p>
-                
-                <button id="sim-toggle" class="simulation-toggle px-6 py-3 rounded-full flex items-center gap-3 mx-auto transition-all duration-300 hover:scale-105 opacity-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="start-simulation" class="start-simulation-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span class="font-medium">Watch Live Simulation</span>
+                    <span id="btn-text">Start Simulation</span>
                 </button>
             </div>
-        </header>
 
-        <div class="max-w-6xl mx-auto px-4 mb-16">
-            <div class="glass-card rounded-2xl p-6 grid grid-cols-2 md:grid-cols-4 gap-6 opacity-0" id="stats-bar">
-                <div class="text-center">
-                    <div class="stat-value text-3xl font-bold font-display" data-target="90">0%</div>
-                    <div class="text-sm text-gray-400 mt-1">Time Saved</div>
+            <!-- 3 Step Live Preview Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Step 1: Install -->
+                <div class="preview-step" id="sim-step-1">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="step-indicator">1</div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg">Install Extension</h3>
+                            <div class="status-text" id="status-1">Click start to begin</div>
+                        </div>
+                    </div>
+                    <div class="mock-ui">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                        </div>
+                        <div class="h-3 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div id="sim-chrome-btn" class="inline-block px-4 py-2 bg-gray-200 text-sm rounded-lg text-gray-600 font-medium transition-all">
+                            Add to Chrome
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-1"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center">
-                    <div class="stat-value text-3xl font-bold font-display" data-target="500">0+</div>
-                    <div class="text-sm text-gray-400 mt-1">Profiles/Hour</div>
+
+                <!-- Step 2: Search & Collect -->
+                <div class="preview-step" id="sim-step-2">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="step-indicator">2</div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg">Search & Collect</h3>
+                            <div class="status-text" id="status-2">Waiting...</div>
+                        </div>
+                    </div>
+                    <div class="mock-ui">
+                        <div class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg mb-3">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <span id="sim-search-text" class="text-sm text-gray-600">Ready to search...</span>
+                        </div>
+                        <div id="sim-profile-count" class="text-sm text-brand font-semibold mb-2">0 profiles</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-2"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center">
-                    <div class="stat-value text-3xl font-bold font-display" data-target="95">0%</div>
-                    <div class="text-sm text-gray-400 mt-1">Accuracy Rate</div>
+
+                <!-- Step 3: Rank & Export -->
+                <div class="preview-step" id="sim-step-3">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="step-indicator">3</div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg">Rank & Export</h3>
+                            <div class="status-text" id="status-3">Waiting...</div>
+                        </div>
+                    </div>
+                    <div class="mock-ui">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-gray-600">AI Match Score</span>
+                            <span id="sim-rank-score" class="text-lg font-bold text-brand">--%</span>
+                        </div>
+                        <div class="progress-bar mb-3">
+                            <div class="progress-fill" id="progress-3"></div>
+                        </div>
+                        <div id="sim-export-btn" class="w-full py-2 bg-gray-200 text-sm rounded-lg text-center text-gray-600 font-medium transition-all">
+                            Export Results
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center">
-                    <div class="stat-value text-3xl font-bold font-display" data-target="3">0x</div>
-                    <div class="text-sm text-gray-400 mt-1">Faster Hiring</div>
+            </div>
+
+            <!-- Step descriptions -->
+            <div class="mt-10 grid md:grid-cols-3 gap-6 text-center">
+                <div class="opacity-0 desc-item">
+                    <p class="text-gray-600 text-sm">Add RecruiterAI to Chrome with one click. No complex setup required.</p>
+                </div>
+                <div class="opacity-0 desc-item">
+                    <p class="text-gray-600 text-sm">Search LinkedIn normally and let AI collect profiles automatically.</p>
+                </div>
+                <div class="opacity-0 desc-item">
+                    <p class="text-gray-600 text-sm">Get instant AI rankings and export top candidates to your dashboard.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-            <div class="relative">
-                
-                <div class="pipeline-container flex flex-col md:flex-row gap-8 md:gap-4 relative">
-                    
-                    <div class="hidden md:block pipeline-connector" style="width: 75%; left: 12.5%;"></div>
-                    
-                    <div class="step-card flex-1 relative opacity-0" data-step="1">
-                        <div class="glass-card rounded-3xl p-8 h-full hover-lift relative overflow-hidden group">
-                            <div class="step-badge w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg mb-6 relative z-10">
-                                1
-                            </div>
-                            
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                                </svg>
-                            </div>
-                            
-                            <h3 class="font-display text-2xl font-bold mb-3">Install Extension</h3>
-                            <p class="text-gray-400 mb-6 leading-relaxed">
-                                Add RecruiterAI to Chrome in one click. No complex setup, no technical knowledge required.
-                            </p>
-                            
-                            <div class="bg-black/30 rounded-xl p-4 border border-white/5">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="h-2 bg-white/10 rounded w-3/4"></div>
-                                    <div class="h-2 bg-white/10 rounded w-1/2"></div>
-                                    <div class="flex items-center gap-2 mt-3">
-                                        <div class="chrome-btn flex-1 bg-indigo-600 text-xs py-2 rounded text-center font-medium opacity-0" id="chrome-btn-1">
-                                            Add to Chrome
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="particle-container absolute inset-0 pointer-events-none overflow-hidden rounded-3xl"></div>
-                        </div>
-                    </div>
-
-                    <div class="step-card flex-1 relative opacity-0" data-step="2">
-                        <div class="glass-card rounded-3xl p-8 h-full hover-lift relative overflow-hidden group">
-                            <div class="step-badge w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg mb-6 relative z-10">
-                                2
-                            </div>
-                            
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
-                            </div>
-                            
-                            <h3 class="font-display text-2xl font-bold mb-3">Search & Collect</h3>
-                            <p class="text-gray-400 mb-6 leading-relaxed">
-                                Perform your regular LinkedIn search. Our AI automatically collects and analyzes candidate profiles in real-time.
-                            </p>
-                            
-                            <div class="bg-black/30 rounded-xl p-4 border border-white/5">
-                                <div class="flex items-center gap-2 mb-3 px-3 py-2 bg-white/5 rounded-lg">
-                                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                    <span class="text-sm text-gray-400 typing-cursor" id="search-text">Senior Software Engineer</span>
-                                </div>
-                                <div class="space-y-2" id="profile-list">
-                                    <div class="flex items-center gap-3 p-2 rounded-lg bg-white/5 opacity-0 profile-item">
-                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400"></div>
-                                        <div class="flex-1">
-                                            <div class="h-2 bg-white/20 rounded w-24"></div>
-                                            <div class="h-1.5 bg-white/10 rounded w-16 mt-1"></div>
-                                        </div>
-                                        <div class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                                            <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
-                                    <span>Analyzing...</span>
-                                    <span class="text-emerald-400" id="profile-count">0 profiles</span>
-                                </div>
-                            </div>
-                            
-                            <div class="particle-container absolute inset-0 pointer-events-none overflow-hidden rounded-3xl"></div>
-                        </div>
-                    </div>
-
-                    <div class="step-card flex-1 relative opacity-0" data-step="3">
-                        <div class="glass-card rounded-3xl p-8 h-full hover-lift relative overflow-hidden group">
-                            <div class="step-badge w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg mb-6 relative z-10">
-                                3
-                            </div>
-                            
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                </svg>
-                            </div>
-                            
-                            <h3 class="font-display text-2xl font-bold mb-3">Rank & Export</h3>
-                            <p class="text-gray-400 mb-6 leading-relaxed">
-                                Input your job requirements. AI instantly ranks all candidates by fit score and exports top matches.
-                            </p>
-                            
-                            <div class="bg-black/30 rounded-xl p-4 border border-white/5">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-xs text-gray-500">Match Score</span>
-                                    <span class="text-xs text-emerald-400">Top 3 Results</span>
-                                </div>
-                                <div class="space-y-3">
-                                    <div class="ranking-item opacity-0">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <span class="text-xs text-gray-300">Candidate #1</span>
-                                            <span class="text-xs font-bold text-emerald-400">98%</span>
-                                        </div>
-                                        <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                            <div class="progress-fill h-full rounded-full" style="width: 0%" data-width="98"></div>
-                                        </div>
-                                    </div>
-                                    <div class="ranking-item opacity-0">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <span class="text-xs text-gray-300">Candidate #2</span>
-                                            <span class="text-xs font-bold text-indigo-400">94%</span>
-                                        </div>
-                                        <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                            <div class="progress-fill h-full rounded-full" style="width: 0%" data-width="94"></div>
-                                        </div>
-                                    </div>
-                                    <div class="ranking-item opacity-0">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <span class="text-xs text-gray-300">Candidate #3</span>
-                                            <span class="text-xs font-bold text-pink-400">89%</span>
-                                        </div>
-                                        <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                            <div class="progress-fill h-full rounded-full" style="width: 0%" data-width="89"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="w-full mt-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-xs py-2 rounded-lg font-medium opacity-0 hover:opacity-90 transition-opacity" id="export-btn">
-                                    Export to CSV
-                                </button>
-                            </div>
-                            
-                            <div class="particle-container absolute inset-0 pointer-events-none overflow-hidden rounded-3xl"></div>
-                        </div>
-                    </div>
+    <!-- Features/Benefits Section (Optional - can remove if you want) -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div class="grid md:grid-cols-3 gap-8 opacity-0" id="benefits-section">
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-brand-light flex items-center justify-center">
+                    <svg class="w-8 h-8 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
                 </div>
-
-                <div class="hidden md:flex justify-center mt-12 gap-4 opacity-0" id="flow-indicators">
-                    <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></div>
-                        <span class="text-xs text-gray-400">Data Flow Active</span>
-                    </div>
-                    <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                        <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                        <span class="text-xs text-gray-400">Real-time Processing</span>
-                    </div>
-                </div>
+                <h3 class="font-bold text-gray-900 mb-2">Lightning Fast</h3>
+                <p class="text-gray-600 text-sm">Process 500+ profiles per hour with AI-powered analysis</p>
             </div>
-        </section>
-
-        <section class="max-w-4xl mx-auto px-4 pb-32 text-center">
-            <div class="glass-card rounded-3xl p-8 md:p-12 opacity-0" id="cta-section">
-                <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Hiring?</h2>
-                <p class="text-gray-400 mb-8 max-w-xl mx-auto">
-                    Join thousands of recruiters who have reduced their screening time by 90% with AI-powered candidate ranking.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button id="get-started-btn" class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-105">
-                        Get Started Free
-                    </button>
-                    <button id="watch-demo-btn" class="px-8 py-4 glass-card rounded-full font-semibold hover:bg-white/10 transition-all duration-300">
-                        Watch Demo
-                    </button>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-blue-50 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                 </div>
-                <p class="text-xs text-gray-500 mt-6">14-day free trial • No credit card required</p>
+                <h3 class="font-bold text-gray-900 mb-2">95% Accuracy</h3>
+                <p class="text-gray-600 text-sm">Advanced AI algorithms ensure precise candidate matching</p>
             </div>
-        </section>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-purple-50 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 mb-2">Native & Secure</h3>
+                <p class="text-gray-600 text-sm">Works within LinkedIn. No data scraping or external servers</p>
+            </div>
+        </div>
+    </section>
 
-    </div>
+    <!-- CTA Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-20">
+        <div class="feature-card p-8 md:p-12 text-center opacity-0" id="cta-section">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Ready to Transform Your Hiring?</h2>
+            <p class="text-gray-600 mb-8 max-w-xl mx-auto">
+                Join thousands of recruiters who have reduced their screening time by 90% with AI-powered candidate ranking.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="get-started-btn" class="btn-primary px-8 py-4 text-lg">
+                    Get Started Free
+                </button>
+                <button id="watch-demo-btn" class="btn-secondary px-8 py-4 text-lg">
+                    Watch Demo
+                </button>
+            </div>
+            <p class="text-sm text-gray-500 mt-6">14-day free trial • No credit card required</p>
+        </div>
+    </section>
 
-    <div id="modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div id="modal-content" class="glass-card rounded-3xl p-8 max-w-md w-full transform scale-95 opacity-0 transition-all duration-300">
+    <!-- Modal -->
+    <div id="modal-overlay" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div id="modal-content" class="modal-content max-w-md w-full p-8 transform scale-95 opacity-0 transition-all duration-300">
             <div class="flex justify-between items-start mb-6">
-                <h3 id="modal-title" class="font-display text-2xl font-bold text-white"></h3>
-                <button id="close-modal" class="text-gray-400 hover:text-white transition-colors">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-900"></h3>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-            <p id="modal-message" class="text-gray-300 mb-6 leading-relaxed"></p>
+            <p id="modal-message" class="text-gray-600 mb-6 leading-relaxed"></p>
             <div id="modal-action" class="flex gap-3"></div>
         </div>
     </div>
@@ -491,24 +509,28 @@
             gsap.to('#badge', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
             gsap.to('#main-title', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.4 });
             gsap.to('#subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.6 });
-            gsap.to('#sim-toggle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.8 });
 
             gsap.to('#stats-bar', {
                 opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
                 scrollTrigger: { trigger: '#stats-bar', start: 'top 85%', toggleActions: 'play none none reverse' }
             });
 
-            gsap.utils.toArray('.step-card').forEach((card, i) => {
-                gsap.to(card, {
-                    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-                    scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none reverse' },
-                    delay: i * 0.2
+            gsap.to('#preview-section', {
+                opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: '#preview-section', start: 'top 85%', toggleActions: 'play none none reverse' }
+            });
+
+            gsap.utils.toArray('.desc-item').forEach((item, i) => {
+                gsap.to(item, {
+                    opacity: 1, y: 0, duration: 0.6, ease: 'power3.out',
+                    scrollTrigger: { trigger: item, start: 'top 90%', toggleActions: 'play none none reverse' },
+                    delay: i * 0.15
                 });
             });
 
-            gsap.to('#flow-indicators', {
+            gsap.to('#benefits-section', {
                 opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-                scrollTrigger: { trigger: '#flow-indicators', start: 'top 90%', toggleActions: 'play none none reverse' }
+                scrollTrigger: { trigger: '#benefits-section', start: 'top 85%', toggleActions: 'play none none reverse' }
             });
 
             gsap.to('#cta-section', {
@@ -517,8 +539,162 @@
             });
         }
 
+        function initSimulation() {
+            const startBtn = document.getElementById('start-simulation');
+            const btnText = document.getElementById('btn-text');
+            let isSimulating = false;
+
+            startBtn.addEventListener('click', () => {
+                if (isSimulating) {
+                    stopSimulation();
+                } else {
+                    startSimulation();
+                }
+            });
+
+            function startSimulation() {
+                isSimulating = true;
+                startBtn.classList.add('simulating');
+                btnText.textContent = 'Stop Simulation';
+                
+                // Reset all steps
+                resetSteps();
+                
+                // Step 1: Install
+                setTimeout(() => {
+                    const step1 = document.getElementById('sim-step-1');
+                    const status1 = document.getElementById('status-1');
+                    const chromeBtn = document.getElementById('sim-chrome-btn');
+                    const progress1 = document.getElementById('progress-1');
+                    
+                    step1.classList.add('active');
+                    status1.textContent = 'Installing...';
+                    progress1.style.width = '40%';
+                    
+                    setTimeout(() => {
+                        progress1.style.width = '100%';
+                        chromeBtn.classList.remove('bg-gray-200', 'text-gray-600');
+                        chromeBtn.classList.add('bg-brand', 'text-white');
+                        chromeBtn.innerHTML = '✓ Installed';
+                        status1.textContent = 'Extension ready!';
+                        step1.classList.remove('active');
+                        step1.classList.add('completed');
+                    }, 1200);
+                }, 400);
+
+                // Step 2: Search & Collect
+                setTimeout(() => {
+                    const step2 = document.getElementById('sim-step-2');
+                    const status2 = document.getElementById('status-2');
+                    const searchText = document.getElementById('sim-search-text');
+                    const profileCount = document.getElementById('sim-profile-count');
+                    const progress2 = document.getElementById('progress-2');
+                    
+                    step2.classList.add('active');
+                    status2.textContent = 'Collecting profiles...';
+                    
+                    const searches = ['Software Engineer', 'Product Manager', 'Data Scientist', 'UX Designer', 'DevOps Engineer'];
+                    let count = 0;
+                    
+                    const interval = setInterval(() => {
+                        if (!isSimulating) {
+                            clearInterval(interval);
+                            return;
+                        }
+                        
+                        searchText.textContent = searches[count % searches.length];
+                        count++;
+                        profileCount.textContent = count + ' profiles found';
+                        progress2.style.width = (count * 20) + '%';
+                        
+                        if (count >= 5) {
+                            clearInterval(interval);
+                            status2.textContent = 'Collection complete!';
+                            step2.classList.remove('active');
+                            step2.classList.add('completed');
+                        }
+                    }, 600);
+                }, 2200);
+
+                // Step 3: Rank & Export
+                setTimeout(() => {
+                    const step3 = document.getElementById('sim-step-3');
+                    const status3 = document.getElementById('status-3');
+                    const rankScore = document.getElementById('sim-rank-score');
+                    const progress3 = document.getElementById('progress-3');
+                    const exportBtn = document.getElementById('sim-export-btn');
+                    
+                    step3.classList.add('active');
+                    status3.textContent = 'AI analyzing...';
+                    
+                    let score = 0;
+                    const scoreInterval = setInterval(() => {
+                        if (!isSimulating) {
+                            clearInterval(scoreInterval);
+                            return;
+                        }
+                        score += 2;
+                        rankScore.textContent = score + '%';
+                        progress3.style.width = score + '%';
+                        
+                        if (score >= 98) {
+                            clearInterval(scoreInterval);
+                            rankScore.textContent = '98%';
+                            progress3.style.width = '98%';
+                            exportBtn.classList.remove('bg-gray-200', 'text-gray-600');
+                            exportBtn.classList.add('bg-brand', 'text-white');
+                            exportBtn.innerHTML = '✓ Export Ready';
+                            status3.textContent = 'Top candidates ranked!';
+                            step3.classList.remove('active');
+                            step3.classList.add('completed');
+                            
+                            // Auto-stop after completion
+                            setTimeout(() => {
+                                if (isSimulating) stopSimulation();
+                            }, 1500);
+                        }
+                    }, 40);
+                }, 5500);
+            }
+
+            function stopSimulation() {
+                isSimulating = false;
+                startBtn.classList.remove('simulating');
+                btnText.textContent = 'Start Simulation';
+                resetSteps();
+            }
+
+            function resetSteps() {
+                document.querySelectorAll('.preview-step').forEach(step => {
+                    step.classList.remove('active', 'completed');
+                });
+                
+                document.getElementById('status-1').textContent = 'Click start to begin';
+                document.getElementById('status-2').textContent = 'Waiting...';
+                document.getElementById('status-3').textContent = 'Waiting...';
+                
+                document.querySelectorAll('.progress-fill').forEach(bar => {
+                    bar.style.width = '0%';
+                });
+                
+                const chromeBtn = document.getElementById('sim-chrome-btn');
+                chromeBtn.classList.add('bg-gray-200', 'text-gray-600');
+                chromeBtn.classList.remove('bg-brand', 'text-white');
+                chromeBtn.textContent = 'Add to Chrome';
+                
+                document.getElementById('sim-search-text').textContent = 'Ready to search...';
+                document.getElementById('sim-profile-count').textContent = '0 profiles';
+                
+                document.getElementById('sim-rank-score').textContent = '--%';
+                const exportBtn = document.getElementById('sim-export-btn');
+                exportBtn.classList.add('bg-gray-200', 'text-gray-600');
+                exportBtn.classList.remove('bg-brand', 'text-white');
+                exportBtn.textContent = 'Export Results';
+            }
+        }
+
         function initCounters() {
-            const counters = document.querySelectorAll('.stat-value');
+            const counters = document.querySelectorAll('.stat-number');
             counters.forEach(counter => {
                 const target = parseInt(counter.getAttribute('data-target'));
                 const suffix = counter.textContent.includes('%') ? '%' : counter.textContent.includes('+') ? '+' : counter.textContent.includes('x') ? 'x' : '';
@@ -541,77 +717,6 @@
             });
         }
 
-        function initSimulation() {
-            const toggle = document.getElementById('sim-toggle');
-            let isSimulating = false;
-
-            toggle.addEventListener('click', () => {
-                isSimulating = !isSimulating;
-                toggle.classList.toggle('active', isSimulating);
-                if (isSimulating) startSimulation();
-                else stopSimulation();
-            });
-
-            function startSimulation() {
-                setTimeout(() => {
-                    const btn = document.getElementById('chrome-btn-1');
-                    gsap.to(btn, { opacity: 1, duration: 0.3 });
-                    gsap.to(btn, {
-                        scale: 0.95, duration: 0.1, yoyo: true, repeat: 1,
-                        onComplete: () => {
-                            btn.textContent = 'Installed ✓';
-                            btn.classList.remove('bg-indigo-600');
-                            btn.classList.add('bg-emerald-600');
-                        }
-                    });
-                }, 500);
-
-                setTimeout(() => {
-                    const searchTexts = ['Senior Software Engineer', 'Product Manager', 'Data Scientist', 'UX Designer'];
-                    let currentIndex = 0;
-                    const typeInterval = setInterval(() => {
-                        document.getElementById('search-text').textContent = searchTexts[currentIndex];
-                        currentIndex = (currentIndex + 1) % searchTexts.length;
-                        const profileList = document.getElementById('profile-list');
-                        const newProfile = document.createElement('div');
-                        newProfile.className = 'flex items-center gap-3 p-2 rounded-lg bg-white/5 opacity-0 profile-item';
-                        newProfile.innerHTML = `<div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400"></div><div class="flex-1"><div class="h-2 bg-white/20 rounded w-24"></div><div class="h-1.5 bg-white/10 rounded w-16 mt-1"></div></div><div class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center"><svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>`;
-                        profileList.appendChild(newProfile);
-                        gsap.to(newProfile, { opacity: 1, duration: 0.3 });
-                        const count = profileList.children.length;
-                        document.getElementById('profile-count').textContent = count + ' profiles';
-                        if (count >= 5) clearInterval(typeInterval);
-                    }, 800);
-                }, 2000);
-
-                setTimeout(() => {
-                    const rankingItems = document.querySelectorAll('.ranking-item');
-                    const progressBars = document.querySelectorAll('.progress-fill');
-                    rankingItems.forEach((item, i) => {
-                        gsap.to(item, {
-                            opacity: 1, duration: 0.5, delay: i * 0.2,
-                            onComplete: () => {
-                                gsap.to(progressBars[i], { width: progressBars[i].getAttribute('data-width') + '%', duration: 0.8, ease: 'power2.out' });
-                            }
-                        });
-                    });
-                    setTimeout(() => gsap.to('#export-btn', { opacity: 1, duration: 0.3 }), 1500);
-                }, 6000);
-            }
-
-            function stopSimulation() {
-                gsap.set('#chrome-btn-1', { opacity: 0 });
-                document.getElementById('chrome-btn-1').textContent = 'Add to Chrome';
-                document.getElementById('chrome-btn-1').classList.add('bg-indigo-600');
-                document.getElementById('chrome-btn-1').classList.remove('bg-emerald-600');
-                document.querySelectorAll('.profile-item').forEach((item, i) => { if (i > 0) item.remove(); });
-                document.getElementById('profile-count').textContent = '0 profiles';
-                gsap.set('.ranking-item', { opacity: 0 });
-                gsap.set('.progress-fill', { width: '0%' });
-                gsap.set('#export-btn', { opacity: 0 });
-            }
-        }
-
         function initModals() {
             const modalOverlay = document.getElementById('modal-overlay');
             const modalContent = document.getElementById('modal-content');
@@ -620,10 +725,23 @@
             const modalAction = document.getElementById('modal-action');
             const closeModalBtn = document.getElementById('close-modal');
 
-            function showModal(title, message, actionHTML) {
+            function showModal(title, message, primaryText, primaryAction, secondaryText) {
                 modalTitle.textContent = title;
                 modalMessage.textContent = message;
-                modalAction.innerHTML = actionHTML;
+                modalAction.innerHTML = '';
+                
+                const primaryBtn = document.createElement('button');
+                primaryBtn.className = 'flex-1 px-4 py-3 bg-brand text-white rounded-xl font-semibold hover:bg-emerald-600 transition-all';
+                primaryBtn.innerHTML = primaryText;
+                primaryBtn.addEventListener('click', primaryAction);
+                modalAction.appendChild(primaryBtn);
+                
+                const secondaryBtn = document.createElement('button');
+                secondaryBtn.className = 'px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-brand hover:text-brand transition-all';
+                secondaryBtn.textContent = secondaryText;
+                secondaryBtn.addEventListener('click', hideModal);
+                modalAction.appendChild(secondaryBtn);
+                
                 modalOverlay.classList.remove('hidden');
                 modalOverlay.classList.add('flex');
                 setTimeout(() => {
@@ -643,17 +761,21 @@
 
             document.getElementById('get-started-btn').addEventListener('click', () => {
                 showModal(
-                    '🚀 Get Started with RecruiterAI',
+                    'Get Started with RecruiterAI',
                     'Start your 14-day free trial today. No credit card required. Experience the power of AI-driven recruiting and reduce your screening time by 90%.',
-                    `<button onclick="window.open('https://test-recruiter.libaspace.com/', '_blank')" class="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl font-semibold text-white hover:shadow-lg hover:shadow-indigo-500/25 transition-all">Visit Website</button><button onclick="hideModal()" class="px-4 py-3 glass-card rounded-xl font-semibold text-white hover:bg-white/10 transition-all">Maybe Later</button>`
+                    'Visit Website',
+                    () => window.open('https://test-recruiter.libaspace.com/', '_blank'),
+                    'Maybe Later'
                 );
             });
 
             document.getElementById('watch-demo-btn').addEventListener('click', () => {
                 showModal(
-                    '🎬 Watch Product Demo',
+                    'Watch Product Demo',
                     'See how RecruiterAI transforms your hiring process. The demo shows real-time profile analysis, AI ranking, and one-click exports.',
-                    `<button onclick="window.open('https://lxvjqilcsd7.feishu.cn/minutes/obcnim4mm2c54w1k8me82arj', '_blank')" class="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl font-semibold text-white hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Play Video</button><button onclick="hideModal()" class="px-4 py-3 glass-card rounded-xl font-semibold text-white hover:bg-white/10 transition-all">Close</button>`
+                    '▶ Play Video',
+                    () => window.open('https://lxvjqilcsd7.feishu.cn/minutes/obcnim4mm2c54w1k8me82arj', '_blank'),
+                    'Close'
                 );
             });
 
@@ -661,11 +783,6 @@
             modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) hideModal(); });
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideModal(); });
         }
-
-        document.querySelectorAll('.step-card').forEach(card => {
-            card.addEventListener('mouseenter', () => { card.querySelector('.step-badge').classList.add('pulse-active'); });
-            card.addEventListener('mouseleave', () => { card.querySelector('.step-badge').classList.remove('pulse-active'); });
-        });
     </script>
 </body>
 </html>
